@@ -8,4 +8,10 @@ import java.util.UUID;
 
 @Repository
 public interface MembroRepository extends JpaRepository<Membro, UUID> {
+
+    boolean existsByCpf(String cpf);
+
+    boolean exixtsByEmail(String email);
+
+    boolean existsByTelefone(String telefone);
 }

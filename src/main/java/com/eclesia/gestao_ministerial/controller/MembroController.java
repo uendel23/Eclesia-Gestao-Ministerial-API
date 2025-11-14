@@ -5,7 +5,6 @@ import com.eclesia.gestao_ministerial.mapper.MembroMapper;
 import com.eclesia.gestao_ministerial.model.Membro;
 import com.eclesia.gestao_ministerial.service.MembroService;
 import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -27,25 +26,24 @@ public class MembroController {
 
     @PostMapping("/cadastrar")
     public ResponseEntity<Membro>CadastrarMembro(@RequestBody @Valid CreateMembroDto membroDto){
-        membroService.cadastrarMembro(membroDto);
-        return ResponseEntity.created(ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand().toUri() ).body(membroMapper.toEntity(membroDto));
+        Membro membroSalvo = membroService.cadastrarMembro(membroDto);
+        return ResponseEntity.created(ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(membroSalvo.getId()).toUri() ).body(membroMapper.toEntity(membroDto));
     }
 
-    @PutMapping("/atualizar")
-        public ResponseEntity<Membro>AtualizarMembro(@RequestBody @Valid CreateMembroDto membroDto){
+    @PutMapping("/atualizar/{id}")
+        public ResponseEntity<Membro>AtualizarMembro(@RequestBody @Valid CreateMembroDto membroDto, @PathVariable UUID id){
         membroService.atualizarMembro(membroDto);
         return ResponseEntity.ok(membroMapper.toEntity(membroDto));
     }
 
     @GetMapping("/buscar/{id}")
     public ResponseEntity<Membro>buscarMembro( @PathVariable UUID id){
-        membroService.buscarMembroById(id);
-        return ResponseEntity.ok().build();
+       Membro membro = membroService.buscarMembroById(id);
+        return ResponseEntity.ok(membro);
     }
-
-    public ResponseEntity<Membro> listarMembros(){
-        membroService.listarMembros();
-        return ResponseEntity.ok().build();
+    @GetMapping("/listar")
+    public ResponseEntity listarMembros(){
+        return ResponseEntity.ok(membroService.listarMembros());
     }
 
     @DeleteMapping("/deletar/{id}")

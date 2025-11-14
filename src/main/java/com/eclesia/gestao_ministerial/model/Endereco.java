@@ -15,8 +15,6 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "endereco_tb")
-@Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class Endereco {
@@ -39,4 +37,53 @@ public class Endereco {
 
     @NotBlank
     private String estado;
+
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public @NotBlank String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(@NotBlank String estado) {
+        this.estado = estado;
+    }
+
+    public @NotBlank String getCidade() {
+        return cidade;
+    }
+
+    public void setCidade(@NotBlank String cidade) {
+        this.cidade = cidade;
+    }
+
+    public @NotBlank String getNumero() {
+        return numero;
+    }
+
+    public void setNumero(@NotBlank String numero) {
+        this.numero = numero;
+    }
+
+    public @NotBlank String getRua() {
+        return rua;
+    }
+
+    public void setRua(@NotBlank String rua) {
+        this.rua = rua;
+    }
+
+    @NotBlank
+    public String getCep() {
+        return cep;
+    }
+
+    public void setCep(@NotBlank String cep) {
+        this.cep = cep;
+    }
 }
