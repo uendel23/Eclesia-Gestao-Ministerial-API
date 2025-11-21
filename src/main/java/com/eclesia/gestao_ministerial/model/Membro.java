@@ -49,6 +49,16 @@ public class Membro {
 
     private boolean batizado;
 
+    public Boolean getAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(Boolean ativo) {
+        this.ativo = ativo;
+    }
+
+    private Boolean ativo;
+
     public UUID getId() {
         return id;
     }

@@ -9,10 +9,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/membros")
+@RequestMapping("/api/membros")
 
 public class MembroController {
 
@@ -41,9 +42,12 @@ public class MembroController {
        Membro membro = membroService.buscarMembroById(id);
         return ResponseEntity.ok(membro);
     }
-    @GetMapping("/listar")
-    public ResponseEntity listarMembros(){
-        return ResponseEntity.ok(membroService.listarMembros());
+    @GetMapping("/listar/filtro")
+    public ResponseEntity<List<Membro>> listarMembros(  @RequestParam(required = false) String cargo,
+                                                        @RequestParam(required = false) String ministerio,
+                                                        @RequestParam(required = false) Boolean ativo){
+        List<CreateMembroDto> membros = membroService.listarMembros(cargo, ministerio, ativo);
+        return ResponseEntity.ok(membroMapper.toMembroList(membros));
     }
 
     @DeleteMapping("/deletar/{id}")

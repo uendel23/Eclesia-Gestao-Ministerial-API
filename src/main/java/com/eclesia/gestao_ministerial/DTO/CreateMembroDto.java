@@ -1,5 +1,6 @@
 package com.eclesia.gestao_ministerial.DTO;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,8 +9,7 @@ import lombok.Setter;
 import java.util.UUID;
 
 
-@NoArgsConstructor
-@AllArgsConstructor
+
 public class CreateMembroDto {
 
     private UUID id;
@@ -25,6 +25,43 @@ public class CreateMembroDto {
     private String ministerio;
     private String celula;
     private boolean batizado;
+    private Boolean ativo;
+
+    public CreateMembroDto() {
+    }
+
+    public CreateMembroDto(UUID id, String cpf, String nomeCompleto, String sexo, String dataNascimento, String estadoCivil, CreateEnderecoDto endereco, String telefone, String email, String cargo, String ministerio, String celula, boolean batizado, Boolean ativo) {
+        this.id = id;
+        this.cpf = cpf;
+        this.nomeCompleto = nomeCompleto;
+        this.sexo = sexo;
+        this.dataNascimento = dataNascimento;
+        this.estadoCivil = estadoCivil;
+        this.endereco = endereco;
+        this.telefone = telefone;
+        this.email = email;
+        this.cargo = cargo;
+        this.ministerio = ministerio;
+        this.celula = celula;
+        this.batizado = batizado;
+        this.ativo = ativo;
+    }
+
+    public CreateMembroDto(UUID id, @NotBlank String nomeCompleto, String cargo, String ministerio, Boolean ativo) {
+        this.id = id;
+        this.nomeCompleto = nomeCompleto;
+        this.cargo = cargo;
+        this.ministerio = ministerio;
+        this.ativo = ativo;
+    }
+
+    public Boolean getAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(Boolean ativo) {
+        this.ativo = ativo;
+    }
 
     public String getCpf() {
         return cpf;

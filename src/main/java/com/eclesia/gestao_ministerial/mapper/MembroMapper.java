@@ -17,4 +17,5 @@ public interface MembroMapper {
     Membro toEntity(CreateMembroDto membroDto);
     List<CreateMembroDto> toDtoList(List<Membro> membros);
     CreateMembroDto toDto(Membro membro);
+    List<Membro> toMembroList(List<CreateMembroDto> membros);
 }
