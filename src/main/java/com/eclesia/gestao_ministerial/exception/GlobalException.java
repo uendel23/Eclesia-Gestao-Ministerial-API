@@ -16,4 +16,11 @@ public class GlobalException {
                 .body(ex.getMessage());
     }
 
+    @ExceptionHandler(ImagemException.class)
+    public ResponseEntity<String> ImagemGrandeExceptio(MembroException ex) {
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(ex.getMessage());
+    }
+
 }

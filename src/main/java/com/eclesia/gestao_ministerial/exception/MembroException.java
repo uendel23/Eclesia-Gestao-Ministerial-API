@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 
 public class MembroException extends RuntimeException {
+
     public MembroException(String message) {
         super(message);
     }

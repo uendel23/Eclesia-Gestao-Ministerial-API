@@ -1,13 +1,11 @@
 package com.eclesia.gestao_ministerial.DTO;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateEnderecoDto {
+public class EnderecoDto {
     private String rua;
     private String numero;
     private String complemento;

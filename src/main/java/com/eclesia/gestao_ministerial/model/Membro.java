@@ -1,10 +1,14 @@
 package com.eclesia.gestao_ministerial.model;
 
+import com.eclesia.gestao_ministerial.enums.StatusMembro;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import jakarta.persistence.Id;
 
+import java.time.LocalDate;
 import java.util.UUID;
 
 @Entity
@@ -17,6 +21,10 @@ public class Membro {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "imagem_id", referencedColumnName = "id")
+    private Imagem imagem;
+
     @NotBlank
     private String cpf;
 
@@ -25,8 +33,10 @@ public class Membro {
 
     @NotBlank
     private String sexo;
-    @NotBlank
-    private String dataNascimento;
+
+    @NotNull(message = "A data de nascimento é obrigatória")
+    @JsonFormat(pattern = "dd/MM/yyyy")
+    private LocalDate dataNascimento;
 
     @NotBlank
     private String EstadoCivil;
@@ -45,19 +55,40 @@ public class Membro {
 
     private String ministerio;
 
-    private String celula;
+    private String congregacao;
 
     private boolean batizado;
 
-    public Boolean getAtivo() {
-        return ativo;
+    @Enumerated(EnumType.STRING)
+    private StatusMembro status;
+
+    @JsonFormat(pattern = "dd/MM/yyyy")
+    private LocalDate dataCadastro;
+
+
+    public Imagem getImagem() {
+        return imagem;
     }
 
-    public void setAtivo(Boolean ativo) {
-        this.ativo = ativo;
+    public void setImagem(Imagem imagem) {
+        this.imagem = imagem;
     }
 
-    private Boolean ativo;
+    public LocalDate getDataCadastro() {
+        return dataCadastro;
+    }
+
+    public void setDataCadastro(LocalDate dataCadastro) {
+        this.dataCadastro = dataCadastro;
+    }
+
+    public StatusMembro getStatus() {
+        return status;
+    }
+
+    public void setStatus(StatusMembro status) {
+        this.status = status;
+    }
 
     public UUID getId() {
         return id;
@@ -91,11 +122,11 @@ public class Membro {
         this.sexo = sexo;
     }
 
-    public @NotBlank String getDataNascimento() {
+    public  LocalDate getDataNascimento() {
         return dataNascimento;
     }
 
-    public void setDataNascimento(@NotBlank String dataNascimento) {
+    public void setDataNascimento( LocalDate dataNascimento) {
         this.dataNascimento = dataNascimento;
     }
 
@@ -155,11 +186,11 @@ public class Membro {
         this.batizado = batizado;
     }
 
-    public String getCelula() {
-        return celula;
+    public String getCongregacao() {
+        return congregacao;
     }
 
-    public void setCelula(String celula) {
-        this.celula = celula;
+    public void setCongregacao(String congregacao) {
+        this.congregacao = congregacao;
     }
 }

@@ -1,11 +1,10 @@
 package com.eclesia.gestao_ministerial.DTO;
 
+import com.eclesia.gestao_ministerial.enums.StatusMembro;
+import com.eclesia.gestao_ministerial.model.Imagem;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
+import java.time.LocalDate;
 import java.util.UUID;
 
 
@@ -13,25 +12,46 @@ import java.util.UUID;
 public class CreateMembroDto {
 
     private UUID id;
+
     private String cpf;
+
     private String nomeCompleto;
+
     private String sexo;
-    private String dataNascimento;
+
+    @JsonFormat(pattern = "dd/MM/yyyy")
+    private LocalDate dataNascimento;
+
     private String estadoCivil;
-    private CreateEnderecoDto endereco;
+
+    private EnderecoDto endereco;
+
+    private ImagemDto imagem;
+
     private String telefone;
+
     private String email;
+
     private String cargo;
+
     private String ministerio;
-    private String celula;
+
+    private String congregacao;
+
     private boolean batizado;
-    private Boolean ativo;
+
+    private StatusMembro status;
+
+    @JsonFormat(pattern = "dd/MM/yyyy")
+    private LocalDate dataCadastro;
 
     public CreateMembroDto() {
     }
 
-    public CreateMembroDto(UUID id, String cpf, String nomeCompleto, String sexo, String dataNascimento, String estadoCivil, CreateEnderecoDto endereco, String telefone, String email, String cargo, String ministerio, String celula, boolean batizado, Boolean ativo) {
-        this.id = id;
+    public CreateMembroDto( ImagemDto imagem, String cpf, String nomeCompleto, String sexo, LocalDate dataNascimento,
+                           String estadoCivil, EnderecoDto endereco, String telefone, String email,
+                           String cargo, String ministerio, String congregacao, boolean batizado, StatusMembro status, LocalDate dataCadastro) {
+        this.imagem =  imagem;
         this.cpf = cpf;
         this.nomeCompleto = nomeCompleto;
         this.sexo = sexo;
@@ -42,25 +62,42 @@ public class CreateMembroDto {
         this.email = email;
         this.cargo = cargo;
         this.ministerio = ministerio;
-        this.celula = celula;
+        this.congregacao = congregacao;
         this.batizado = batizado;
-        this.ativo = ativo;
+        this.status = status;
+        this.dataCadastro = dataCadastro;
     }
 
-    public CreateMembroDto(UUID id, @NotBlank String nomeCompleto, String cargo, String ministerio, Boolean ativo) {
+    public CreateMembroDto(UUID id, @NotBlank String nomeCompleto, String cargo, String ministerio, StatusMembro status) {
         this.id = id;
         this.nomeCompleto = nomeCompleto;
         this.cargo = cargo;
         this.ministerio = ministerio;
-        this.ativo = ativo;
+        this.status = status;
     }
 
-    public Boolean getAtivo() {
-        return ativo;
+    public ImagemDto getImagem() {
+        return imagem;
     }
 
-    public void setAtivo(Boolean ativo) {
-        this.ativo = ativo;
+    public void setImagem(ImagemDto imagem) {
+        this.imagem = imagem;
+    }
+
+    public LocalDate getDataCadastro() {
+        return dataCadastro;
+    }
+
+    public void setDataCadastro(LocalDate dataCadastro) {
+        this.dataCadastro = dataCadastro;
+    }
+
+    public StatusMembro getStatus() {
+        return status;
+    }
+
+    public void setStatus(StatusMembro status) {
+        this.status = status;
     }
 
     public String getCpf() {
@@ -95,11 +132,11 @@ public class CreateMembroDto {
         this.sexo = sexo;
     }
 
-    public String getDataNascimento() {
+    public LocalDate getDataNascimento() {
         return dataNascimento;
     }
 
-    public void setDataNascimento(String dataNascimento) {
+    public void setDataNascimento(LocalDate dataNascimento) {
         this.dataNascimento = dataNascimento;
     }
 
@@ -111,11 +148,11 @@ public class CreateMembroDto {
         this.estadoCivil = estadoCivil;
     }
 
-    public CreateEnderecoDto getEndereco() {
+    public EnderecoDto getEndereco() {
         return endereco;
     }
 
-    public void setEndereco(CreateEnderecoDto endereco) {
+    public void setEndereco(EnderecoDto endereco) {
         this.endereco = endereco;
     }
 
@@ -151,12 +188,12 @@ public class CreateMembroDto {
         this.ministerio = ministerio;
     }
 
-    public String getCelula() {
-        return celula;
+    public String getCongregacao() {
+        return congregacao;
     }
 
-    public void setCelula(String celula) {
-        this.celula = celula;
+    public void setCongregacao(String celula) {
+        this.congregacao = celula;
     }
 
     public boolean isBatizado() {
