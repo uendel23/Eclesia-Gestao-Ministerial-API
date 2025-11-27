@@ -1,7 +1,6 @@
 package com.eclesia.gestao_ministerial.DTO;
 
 import com.eclesia.gestao_ministerial.enums.StatusMembro;
-import com.eclesia.gestao_ministerial.model.Imagem;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotBlank;
 import java.time.LocalDate;

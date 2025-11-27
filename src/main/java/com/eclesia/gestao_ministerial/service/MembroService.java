@@ -21,7 +21,7 @@ import java.util.UUID;
 @Service
 public class MembroService {
 
-  private List<Membro> membrosDeletados = new ArrayList<>();
+
   @Autowired
   ImagemService imagemService;
   @Autowired
@@ -72,7 +72,6 @@ public class MembroService {
     public List<CreateMembroDto> listarMembros(String cargo, String ministerio, StatusMembro status) {
         List<Membro> membros = membroRepository.filtrar(cargo != null ? cargo.trim().toLowerCase() : null,
                 ministerio != null ? ministerio.trim().toLowerCase() : null, status);
-         MostrarMembrosDeletados();
         return membroMapper.toDtoList(membros);
     }
 
@@ -88,6 +87,7 @@ public class MembroService {
     }
 
     public void deletarMembro(UUID id){
+        List<Membro> membrosDeletados = new ArrayList<>();
         Membro membro = membroRepository
                 .findById(id).orElseThrow(()-> new RuntimeException("Membro não encontrado"));
         membrosDeletados.add(membro);
@@ -95,27 +95,14 @@ public class MembroService {
 
     }
 
-   private void MostrarMembrosDeletados(){
-        membrosDeletados.forEach(m -> {
-            System.out.println(m.getNomeCompleto());
-        });
-    }
-
-
     void salvarImagem(CreateMembroDto dto, Membro membro) throws IOException {
         if (dto.getImagem() != null) {
-
-
             if (dto.getImagem().getBase64() != null && !dto.getImagem().getBase64().isBlank()) {
-
-                // salvar base64
 
                 Imagem img = imagemService.salvarBase64(dto.getImagem().getBase64());
                 membro.setImagem(img);
 
             } else if (dto.getImagem().getId() != null) {
-
-                // imagem já existe no banco
                 Imagem img = imagemRepository.findById(dto.getImagem().getId())
                         .orElseThrow(() -> new RuntimeException("Imagem não encontrada"));
                 membro.setImagem(img);
