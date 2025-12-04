@@ -27,13 +27,6 @@ public class ImagemService {
     @Autowired
     ImagemRepository imagemRepository;
 
-//    public Imagem salvar(String base64) {
-//        if (base64 == null || base64.isBlank()) return null;
-//
-//        Imagem imagem = new Imagem();
-//        imagem.setBase64(base64);
-//        return imagemRepository.save(imagem);
-//    }
 
     public Imagem salvarBase64(String arquivoBase64) throws IOException {
         byte[] bytes = Base64.getDecoder().decode(arquivoBase64);

@@ -1,5 +1,4 @@
 package com.eclesia.gestao_ministerial.model;
-
 import com.eclesia.gestao_ministerial.enums.StatusMembro;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
@@ -7,6 +6,8 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import jakarta.persistence.Id;
+import org.hibernate.annotations.SQLRestriction;
+
 
 import java.time.LocalDate;
 import java.util.UUID;
@@ -15,6 +16,7 @@ import java.util.UUID;
 @Table(name = "membros_tb")
 @AllArgsConstructor
 @NoArgsConstructor
+@SQLRestriction("excluido = false")
 public class Membro {
 
     @Id
@@ -59,12 +61,22 @@ public class Membro {
 
     private boolean batizado;
 
+    @Column(name = "excluido", nullable = false)
+    private boolean excluido=false;
+
     @Enumerated(EnumType.STRING)
-    private StatusMembro status;
+    private StatusMembro status = StatusMembro.ATIVO;
 
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate dataCadastro;
 
+    public boolean gitExcluido() {
+        return excluido;
+    }
+
+    public void setExcluido(boolean excluido) {
+        this.excluido = excluido;
+    }
 
     public Imagem getImagem() {
         return imagem;

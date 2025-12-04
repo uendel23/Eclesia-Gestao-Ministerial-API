@@ -44,6 +44,8 @@ public class CreateMembroDto {
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate dataCadastro;
 
+    private boolean excluido;
+
     public CreateMembroDto() {
     }
 
@@ -74,6 +76,8 @@ public class CreateMembroDto {
         this.ministerio = ministerio;
         this.status = status;
     }
+
+
 
     public ImagemDto getImagem() {
         return imagem;
@@ -201,5 +205,13 @@ public class CreateMembroDto {
 
     public void setBatizado(boolean batizado) {
         this.batizado = batizado;
+    }
+
+    public boolean isExcluido() {
+        return excluido;
+    }
+
+    public void setExcluido(boolean excluido) {
+        this.excluido = excluido;
     }
 }

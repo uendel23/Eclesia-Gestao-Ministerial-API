@@ -1,6 +1,7 @@
 package com.eclesia.gestao_ministerial.controller;
 
 import com.eclesia.gestao_ministerial.DTO.CreateMembroDto;
+import com.eclesia.gestao_ministerial.DTO.MembroFiltroDto;
 import com.eclesia.gestao_ministerial.DTO.ResponseMembroDto;
 import com.eclesia.gestao_ministerial.enums.StatusMembro;
 import com.eclesia.gestao_ministerial.mapper.MembroMapper;
@@ -52,12 +53,11 @@ public class MembroController {
     }
 
     @GetMapping("/listar/filtro")
-    public ResponseEntity<List<ResponseMembroDto>> listarMembros(  @RequestParam(required = false) String cargo,
-                                                        @RequestParam(required = false) String ministerio,
-                                                        @RequestParam(required = false) StatusMembro status){
-        List<CreateMembroDto> membros = membroService.listarMembros(cargo, ministerio, status);
+    public ResponseEntity<List<ResponseMembroDto>> listarMembros(MembroFiltroDto filtro){
+        List<CreateMembroDto> membros = membroService.listarMembros(filtro.getCargo(), filtro.getMinisterio(), filtro.getStatus());
         return ResponseEntity.ok(membroMapper.CreateMembroDtotoResposnseMembroDtoList(membros));
     }
+
 
     @PatchMapping("/{id}/status")
     public ResponseEntity alterarStatus(@PathVariable UUID id){
@@ -66,9 +66,10 @@ public class MembroController {
     }
 
     @DeleteMapping("/excluir/{id}")
-    public ResponseEntity<Void>deletarMembro(@PathVariable UUID id){
-        membroService.deletarMembro(id);
-        return ResponseEntity.noContent().build();
+    public  ResponseEntity<Void>deletar(@PathVariable UUID id){
+        membroService.deletar(id);
+        return  ResponseEntity.noContent().build();
     }
+
 
 }

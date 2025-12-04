@@ -26,7 +26,7 @@ public interface MembroRepository extends JpaRepository<Membro, UUID> {
             FROM Membro m
             WHERE (:cargo IS NULL OR LOWER(m.cargo) LIKE %:cargo%)
             AND (:ministerio IS NULL OR LOWER(m.ministerio) LIKE %:ministerio%)
-            AND (:status IS NULL OR m.status = :status)
+            AND (:status IS NULL OR m.status = :status)           
            """)
     List<Membro> filtrar(@Param("cargo") String cargo, @Param("ministerio") String ministerio, @Param("status") StatusMembro status);
 

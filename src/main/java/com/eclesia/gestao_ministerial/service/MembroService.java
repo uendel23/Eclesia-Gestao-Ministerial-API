@@ -1,20 +1,18 @@
 package com.eclesia.gestao_ministerial.service;
 
 import com.eclesia.gestao_ministerial.DTO.CreateMembroDto;
+import com.eclesia.gestao_ministerial.DTO.MembroFiltroDto;
 import com.eclesia.gestao_ministerial.enums.StatusMembro;
 import com.eclesia.gestao_ministerial.exception.MembroException;
 import com.eclesia.gestao_ministerial.mapper.MembroMapper;
-import com.eclesia.gestao_ministerial.model.Imagem;
 import com.eclesia.gestao_ministerial.model.Membro;
 import com.eclesia.gestao_ministerial.repository.ImagemRepository;
 import com.eclesia.gestao_ministerial.repository.MembroRepository;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -46,8 +44,6 @@ public class MembroService {
         membro.setDataCadastro(LocalDate.now());
         membro.setStatus(StatusMembro.ATIVO);
 
-        salvarImagem(createMembroDto, membro);
-
         return membroRepository.save(membro);
     }
 
@@ -69,6 +65,12 @@ public class MembroService {
         return membro;
     }
 
+    public List<CreateMembroDto> listarMembros(MembroFiltroDto filtro) {
+        List<Membro> membros = membroRepository.filtrar(filtro.getCargo() != null ? filtro.getCargo().trim().toLowerCase() : null,
+                filtro.getMinisterio() != null ? filtro.getMinisterio().trim().toLowerCase() : null, filtro.getStatus());
+        return membroMapper.toDtoList(membros);
+    }
+
     public List<CreateMembroDto> listarMembros(String cargo, String ministerio, StatusMembro status) {
         List<Membro> membros = membroRepository.filtrar(cargo != null ? cargo.trim().toLowerCase() : null,
                 ministerio != null ? ministerio.trim().toLowerCase() : null, status);
@@ -86,31 +88,14 @@ public class MembroService {
         membroRepository.save(membro);
     }
 
-    public void deletarMembro(UUID id){
-        List<Membro> membrosDeletados = new ArrayList<>();
-        Membro membro = membroRepository
-                .findById(id).orElseThrow(()-> new RuntimeException("Membro não encontrado"));
-        membrosDeletados.add(membro);
-        membroRepository.deleteById(id);
 
+    public void deletar(UUID id) {
+        Membro membro = membroRepository.findById(id).orElseThrow();
+        membro.setExcluido(true);
+        membroRepository.save(membro);
     }
 
-    void salvarImagem(CreateMembroDto dto, Membro membro) throws IOException {
-        if (dto.getImagem() != null) {
-            if (dto.getImagem().getBase64() != null && !dto.getImagem().getBase64().isBlank()) {
 
-                Imagem img = imagemService.salvarBase64(dto.getImagem().getBase64());
-                membro.setImagem(img);
-
-            } else if (dto.getImagem().getId() != null) {
-                Imagem img = imagemRepository.findById(dto.getImagem().getId())
-                        .orElseThrow(() -> new RuntimeException("Imagem não encontrada"));
-                membro.setImagem(img);
-            }
-        }
-
-
-    }
 }
 
 
